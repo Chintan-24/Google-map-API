@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Google Map</title>
+
+    <style type="text/css">
+      #map {
+        height: 400px;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <h3>Alternate way: Added map using embed code</h3>
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3223.2016195233414!2d-115.17869538530275!3d36.11294548009587!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c8c430cb5147bd%3A0x82f2c7c5d9d10d84!2sBellagio%20Hotel%20%26%20Casino!5e0!3m2!1sen!2sin!4v1622698563758!5m2!1sen!2sin"
+      width="100%"
+      height="400"
+      style="border: 0"
+      allowfullscreen=""
+      loading="lazy"
+    ></iframe>
+    <script>
+      function initMap() {
+        //map options
+        var options = {
+          zoom: 8,
+          center: {
+            lat: 36.1699,
+            lng: -115.1398,
+          },
+        };
+
+        //new map
+        var map = new google.maps.Map(document.getElementById("map"), options);
+
+        //listen for click on map
+        google.maps.event.addListener(map, "click", function (event) {
+          //add marker
+          addMarker({ coords: event.latLng });
+        });
+
+        // //add marker
+        // var marker = new google.maps.Marker({
+        //   position: {
+        //     lat: 36.1129,
+        //     lng: -115.1765,
+        //   },
+        //   map: map,
+        //   icon: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
+        // });
+
+        // var infoWindow = new google.maps.InfoWindow({
+        //   content: "<h1>Bellagio Hotel</h1>",
+        // });
+
+        // marker.addListener("click", function () {
+        //   infoWindow.open(map, marker);
+        // });
+
+        //array of markers
+        var markers = [
+          {
+            coords: {
+              lat: 36.1129,
+              lng: -115.1765,
+            },
+            iconImage:
+              "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
+            content: "<h1>Bellagio Hotel</h1>",
+          },
+          {
+            coords: {
+              lat: 30.1129,
+              lng: -105.1765,
+            },
+            content: "<h1>Some random place</h1>",
+          },
+          {
+            coords: {
+              lat: 25.1129,
+              lng: -150.1765,
+            },
+            content: "<h1>another random place</h1>",
+          },
+        ];
+
+        //loop through marker
+        for (var i = 0; i < markers.length; i++) {
+          //add marker
+          addMarker(marker[i]);
+        }
+
+        //add marker function
+        function addMarker(props) {
+          var marker = new google.maps.Marker({
+            position: props.coords,
+            map: map,
+            // icon: props.iconImage,
+          });
+
+          //check for custom icon
+          if (props.iconImage) {
+            //set icon image
+            marker.setIcon(props.iconImage);
+          }
+
+          //check content
+          if (props.content) {
+            var infoWindow = new google.maps.InfoWindow({
+              content: props.content,
+            });
+
+            marker.addListener("click", function () {
+              infoWindow.open(map, marker);
+            });
+          }
+        }
+      }
+    </script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACKshIsPb0NsRy8iFPqqMq60HVBd12gXQ&callback=initMap&libraries=&v=weekly"
+      async
+    ></script>
+  </body>
+</html>
